@@ -50,6 +50,7 @@ public class Line : MonoBehaviour
                 {
                     // Position
                     lines[i].transform.position = Vector3.Lerp(playerPosition, transform.position, (float) i / (float) amountOfLines);
+                    lines[i].transform.position = new Vector3(lines[i].transform.position.x, lines[i].transform.position.y, 1);
 
                     // Rotation
                     Vector3 vectorToTarget = new Vector3(playerPosition.x, playerPosition.y) - new Vector3(transform.position.x, transform.position.y);

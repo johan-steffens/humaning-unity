@@ -12,8 +12,10 @@ GameObject:
   - component: {fileID: 5827328720866833609}
   - component: {fileID: 5827328720866833608}
   - component: {fileID: 5827328720866833615}
+  - component: {fileID: 3661685309802207259}
   - component: {fileID: 5827328720866833652}
   - component: {fileID: 1660756491719252553}
+  - component: {fileID: -1929452571429398734}
   m_Layer: 0
   m_Name: Bait
   m_TagString: Untagged
@@ -101,6 +103,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &3661685309802207259
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5827328720866833614}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.49999997
 --- !u!114 &5827328720866833652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,5 +143,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 446e5a3d3dfd5954b979d5fab850c3eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1929452571429398734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5827328720866833614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ba08fed5d987444855f3b33f3bd9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
