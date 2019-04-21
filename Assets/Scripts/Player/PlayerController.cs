@@ -45,7 +45,6 @@ public class PlayerController : MonoBehaviour
         if(moveVelocity.x != 0)
         {
             rigidbody.AddForce(new Vector2(moveVelocity.x, 0));
-
         }
 
         // Add y velocity
