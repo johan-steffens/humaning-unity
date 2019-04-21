@@ -76,7 +76,7 @@ public class CastLine : MonoBehaviour
 
             // Calculate direction bait should fly
             Vector3 worldPoint = Input.mousePosition;
-            worldPoint.Set(worldPoint.x, worldPoint.y, 2);
+            worldPoint.Set(worldPoint.x, worldPoint.y, 0);
             worldPoint = Camera.main.ScreenToWorldPoint(worldPoint);
             Vector2 force = new Vector2(player.transform.position.x - worldPoint.x, player.transform.position.y - worldPoint.y);
             rigidbody.AddForce(force * 100);
