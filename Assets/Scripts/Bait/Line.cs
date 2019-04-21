@@ -28,6 +28,9 @@ public class Line : MonoBehaviour
             // Calculate amount of lines
             int amountOfLines = Mathf.CeilToInt(distance / lineSize) - 1;
 
+            if (amountOfLines <= 1)
+                return;
+
             // Offset player transform
             Vector3 playerPosition = player.transform.position;
 
