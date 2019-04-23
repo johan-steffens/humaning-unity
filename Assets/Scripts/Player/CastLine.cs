@@ -14,6 +14,9 @@ public class CastLine : MonoBehaviour
     private SpriteRenderer castingArrowSpriteRenderer;
     private bool released = false;
 
+    private float clearTime = 0;
+    private Game.State gameState;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,13 +28,25 @@ public class CastLine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Check if primary mouse button is down
-        if (Input.GetMouseButton(0))
-        {
-            if (baitInstance != null)
-                DestroyImmediate(baitInstance);
+        clearTime += Time.deltaTime;
 
+        // Check game state
+        if(clearTime > 1) {
+            clearTime = 0;
+            gameState = MainSceneController.GetInstance().GetState();
+        }
+        
+        // Check if primary mouse button is down
+        if (Input.GetMouseButton(0) && gameState == Game.State.CATCHING)
+        {
             castingArrowSpriteRenderer.enabled = true;
+
+            // Clear old bait instances
+            if (baitInstance != null)
+            {
+                DestroyImmediate(baitInstance);
+                baitInstance = null;
+            }
 
             // Update casting arrow position
             castingArrowSpriteRenderer.transform.position = player.position;
@@ -54,7 +69,7 @@ public class CastLine : MonoBehaviour
         }
 
         // Check if primary mouse button has been clicked and then released
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && gameState == Game.State.CATCHING)
         {
             released = true;
         }   
@@ -65,6 +80,13 @@ public class CastLine : MonoBehaviour
         if(released)
         {
             released = false;
+
+            // Clear old bait instances
+            if (baitInstance != null)
+            {
+                DestroyImmediate(baitInstance);
+                baitInstance = null;
+            }     
 
             // New instance of bait, flying towards casting arrown pointing direction
             baitInstance = Instantiate(baitPrefab, this.transform);
