@@ -39,7 +39,7 @@ public class CastLine : MonoBehaviour
         }
         
         // Check if primary mouse button is down
-        if (Input.GetMouseButton(0) && gameState == Game.State.CATCHING)
+        if (Input.GetMouseButton(1) && gameState == Game.State.CATCHING)
         {
             castingArrowSpriteRenderer.enabled = true;
 
@@ -71,7 +71,7 @@ public class CastLine : MonoBehaviour
         }
 
         // Check if primary mouse button has been clicked and then released
-        if (Input.GetMouseButtonUp(0) && gameState == Game.State.CATCHING)
+        if (Input.GetMouseButtonUp(1) && gameState == Game.State.CATCHING)
         {
             released = true;
         }   

@@ -15,6 +15,6 @@ public class Game
 
     public enum State
     {
-        CATCHING, ENCOUNTER_QUERY, ENCOUNTER
+        MENU, CATCHING, ENCOUNTER_QUERY, ENCOUNTER
     }
 }

@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator;
     private Rigidbody2D rigidbody;
+    private Slow slow;
+
     private Vector2 moveVelocity;
 
     // Start is called before the first frame update
@@ -20,6 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        slow = GetComponent<Slow>();
     }
 
     // Update is called once per frame
@@ -36,6 +39,15 @@ public class PlayerController : MonoBehaviour
             float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotationSpeed);
+        }
+
+        // Slow if space is held
+        if(Input.GetKey(KeyCode.Space))
+        {
+            slow.enabled = true;
+        } else
+        {
+            slow.enabled = false;
         }
     }
 

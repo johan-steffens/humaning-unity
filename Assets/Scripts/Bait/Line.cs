@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Line : MonoBehaviour
 {
+    public int maxLines;
     public GameObject line;
     public GameObject player;
 
@@ -12,8 +13,6 @@ public class Line : MonoBehaviour
     void Start()
     {
         lines = new List<GameObject>();
-
-        GetComponent<Rigidbody2D>().AddForce(new Vector2(2, -2));
     }
 
     // Update is called once per frame
@@ -28,8 +27,15 @@ public class Line : MonoBehaviour
             // Calculate amount of lines
             int amountOfLines = Mathf.CeilToInt(distance / lineSize) - 1;
 
+            // Min vs max lines 
             if (amountOfLines <= 1)
+            {
                 return;
+            } else if(amountOfLines > maxLines)
+            {
+                Destroy(gameObject);
+                return;
+            }
 
             // Offset player transform
             Vector3 playerPosition = player.transform.position;
