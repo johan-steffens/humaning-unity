@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21029e227a7448142b65328272817bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
   player: {fileID: 470222584}
+  encounterFrame: {fileID: 2063321090}
 --- !u!1 &165887069
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,7 +246,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 165887072}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 22932494}
+        m_MethodName: OnEncounterFrameAccept
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &165887072
@@ -367,7 +378,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 338414815}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 22932494}
+        m_MethodName: OnEncounterFrameDeny
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &338414815
@@ -1205,7 +1227,7 @@ GameObject:
   - component: {fileID: 698330357}
   - component: {fileID: 698330356}
   m_Layer: 0
-  m_Name: Text (1)
+  m_Name: Stars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1283,7 +1305,6 @@ GameObject:
   - component: {fileID: 723012815}
   - component: {fileID: 723012814}
   - component: {fileID: 723012813}
-  - component: {fileID: 723012816}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -1356,20 +1377,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &723012816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 723012812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42cd8dcae69d178488f5efa28e7c7e78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: 95703b29f49b899499233ea7308bb800, type: 3}
-  BlockCount: 180
 --- !u!1 &780643656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,7 +1675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 95703b29f49b899499233ea7308bb800, type: 3}
-  BlockCount: 220
+  BlockCount: 200
 --- !u!1 &888642387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,7 +1943,7 @@ GameObject:
   - component: {fileID: 906943638}
   - component: {fileID: 906943637}
   m_Layer: 0
-  m_Name: Text
+  m_Name: Estimated Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3776,6 +3783,7 @@ GameObject:
   - component: {fileID: 2063321091}
   - component: {fileID: 2063321093}
   - component: {fileID: 2063321092}
+  - component: {fileID: 2063321094}
   m_Layer: 0
   m_Name: Encounter Frame
   m_TagString: Untagged
@@ -3844,3 +3852,16 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2063321090}
   m_CullTransparentMesh: 0
+--- !u!114 &2063321094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2063321090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ca9b335ef2b1df4181a176137e97853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashInterval: 0.3
