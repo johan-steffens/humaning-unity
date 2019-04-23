@@ -23,6 +23,8 @@ public class CastLine : MonoBehaviour
         castingArrowSpriteRenderer = this.gameObject.AddComponent<SpriteRenderer>();
         castingArrowSpriteRenderer.sprite = castingArrow;
         castingArrowSpriteRenderer.enabled = false;
+
+        gameState = MainSceneController.GetInstance().GetState();
     }
 
     // Update is called once per frame
