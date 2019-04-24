@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,10 @@ public class EncounterSceneController : MonoBehaviour
     public Color error = Color.red;
     public Color deactivated = Color.black;
 
+    public Text weightValue;
+    public Text fatPercentageValue;
+    public Text genderValue;
+
     private static EncounterSceneController instance;
 
     private EncounterSceneController()
@@ -37,9 +42,14 @@ public class EncounterSceneController : MonoBehaviour
 
     void Start()
     {
+        Encounter encounter = GameController.Encounter;
         Debug.Log("====================ENCOUNTER STARTED====================");
-        Debug.Log("Encounter :: " + GameController.Encounter);
+        Debug.Log("Encounter :: " + encounter);
         Debug.Log("=========================================================");
+
+        weightValue.text = "" + String.Format("{0:.##}", encounter.weight) + "kg";
+        fatPercentageValue.text = "" + encounter.fatPercentage + "%";
+        genderValue.text = "" + (encounter.gender == Game.Gender.MALE ? "Male" : "Female");
     }
 
     void Update()
