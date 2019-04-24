@@ -11,6 +11,7 @@ public class MainSceneController : MonoBehaviour
     public GameObject menuFrame;
     public GameObject hudFrame;
     public GameObject encounterFrame;
+    public GameObject helpFrame;
 
     public Animator leftPanelAnimator;
     public Animator rightPanelAnimator;
@@ -47,9 +48,9 @@ public class MainSceneController : MonoBehaviour
         SetState(Game.State.CATCHING);
     }
 
-    public void OnMenuControlsClicked()
+    public void OnMenuHelpClicked()
     {
-
+        SetState(Game.State.HELP);
     }
 
     public void OnMenuExitClicked()
@@ -61,6 +62,11 @@ public class MainSceneController : MonoBehaviour
         } 
         #endif
         Application.Quit();
+    }
+
+    public void OnHelpBackClicked()
+    {
+        SetState(Game.State.MENU);
     }
 
     public void OnEncounterFrameAccept()
@@ -92,6 +98,18 @@ public class MainSceneController : MonoBehaviour
         {
             hudFrame.SetActive(true);
             menuFrame.SetActive(false);
+        }
+        // When the help button is clicked in the menu
+        else if (state == Game.State.MENU && changeToState == Game.State.HELP)
+        {
+            helpFrame.SetActive(true);
+            menuFrame.SetActive(false);
+        }
+        // When the back button is clicked in the help frame
+        else if (state == Game.State.HELP && changeToState == Game.State.MENU)
+        {
+            helpFrame.SetActive(false);
+            menuFrame.SetActive(true);
         }
         // When a human is caught and user is queried whether they want to attempt to cat or not
         else if(state == Game.State.CATCHING && changeToState == Game.State.ENCOUNTER_QUERY)

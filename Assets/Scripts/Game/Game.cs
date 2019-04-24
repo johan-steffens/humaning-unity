@@ -15,7 +15,7 @@ public class Game
 
     public enum State
     {
-        MENU, CATCHING, ENCOUNTER_QUERY, ENCOUNTER
+        MENU, HELP, SCORES, CATCHING, ENCOUNTER_QUERY, ENCOUNTER
     }
 
     public class Limits
