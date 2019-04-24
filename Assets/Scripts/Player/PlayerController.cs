@@ -28,26 +28,30 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Get and normalise input
-        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        moveVelocity = moveInput.normalized * speed;
+        if(MainSceneController.GetInstance().GetState() == Game.State.CATCHING)
+        {
+            // Get and normalise input
+            Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            moveVelocity = moveInput.normalized * speed;
 
-        // Set rotation to follow velocity
-        if(moveVelocity.x != 0 || moveVelocity.y != 0)
-        {
-            Vector3 vectorToTarget = (transform.position + new Vector3(moveVelocity.x, moveVelocity.y)) - transform.position;
-            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-            transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotationSpeed);
-        }
+            // Set rotation to follow velocity
+            if (moveVelocity.x != 0 || moveVelocity.y != 0)
+            {
+                Vector3 vectorToTarget = (transform.position + new Vector3(moveVelocity.x, moveVelocity.y)) - transform.position;
+                float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+                Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotationSpeed);
+            }
 
-        // Slow if space is held
-        if(Input.GetKey(KeyCode.Space))
-        {
-            slow.enabled = true;
-        } else
-        {
-            slow.enabled = false;
+            // Slow if space is held
+            if (Input.GetKey(KeyCode.Space))
+            {
+                slow.enabled = true;
+            }
+            else
+            {
+                slow.enabled = false;
+            }
         }
     }
 
