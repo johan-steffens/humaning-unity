@@ -12,6 +12,7 @@ public class MainSceneController : MonoBehaviour
     public GameObject hudFrame;
     public GameObject encounterFrame;
     public GameObject helpFrame;
+    public GameObject scoreFrame;
 
     public Animator leftPanelAnimator;
     public Animator rightPanelAnimator;
@@ -51,6 +52,16 @@ public class MainSceneController : MonoBehaviour
     public void OnMenuHelpClicked()
     {
         SetState(Game.State.HELP);
+    }
+
+    public void OnMenuScoresClicked()
+    {
+        SetState(Game.State.SCORES);
+    }
+
+    public void OnScoresBackClicked()
+    {
+        SetState(Game.State.MENU);
     }
 
     public void OnMenuExitClicked()
@@ -99,16 +110,23 @@ public class MainSceneController : MonoBehaviour
             hudFrame.SetActive(true);
             menuFrame.SetActive(false);
         }
+        // When the scores button is clicked in the menu
+        else if (state == Game.State.MENU && changeToState == Game.State.SCORES)
+        {
+            scoreFrame.SetActive(true);
+            menuFrame.SetActive(false);
+        }
         // When the help button is clicked in the menu
         else if (state == Game.State.MENU && changeToState == Game.State.HELP)
         {
             helpFrame.SetActive(true);
             menuFrame.SetActive(false);
         }
-        // When the back button is clicked in the help frame
-        else if (state == Game.State.HELP && changeToState == Game.State.MENU)
+        // When the back button is clicked in the help or scores frame
+        else if ((state == Game.State.HELP || state == Game.State.SCORES) && changeToState == Game.State.MENU)
         {
             helpFrame.SetActive(false);
+            scoreFrame.SetActive(false);
             menuFrame.SetActive(true);
         }
         // When a human is caught and user is queried whether they want to attempt to cat or not
