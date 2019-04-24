@@ -15,5 +15,79 @@ public class ChanceEncounter : MonoBehaviour
         GetComponent<Rigidbody2D>().velocity = new Vector2((modX == 0 ? -1 : 1) * Random.Range(0, 20), (modX == 0 ? -1 : 1) * -Random.Range(0, 20));
     }
 
-    
+    public Encounter GenerateEncounter()
+    {
+        Encounter encounter = new Encounter();
+        encounter.size = size;
+        encounter.fatPercentage = Random.Range(Game.Limits.fatPercentageMin * GetMinFatModifierBySize(), Game.Limits.fatPercentageMax / GetMaxFatModifierBySize());
+        encounter.gender = Random.Range(0, 2) == 0 ? Game.Gender.MALE : Game.Gender.FEMALE;
+        encounter.weight = Random.Range((float) Game.Limits.weightMin * GetMinWeightModifierBySize(), (float) Game.Limits.weightMax / GetMaxWeightModifierBySize());
+        encounter.CalculateStars();
+        return encounter;
+    }
+
+    private int GetMaxFatModifierBySize() 
+    {
+        if(size == Game.Size.LARGE)
+        {
+            return 1;
+        } else if(size == Game.Size.MEDIUM)
+        {
+            return 3;
+        }
+        else // Game.Size.SMALL
+        {
+            return 6;
+        }
+    }
+
+    private int GetMinFatModifierBySize()
+    {
+        if (size == Game.Size.LARGE)
+        {
+            return 5;
+        }
+        else if (size == Game.Size.MEDIUM)
+        {
+            return 2;
+        }
+        else // Game.Size.SMALL
+        {
+            return 1;
+        }
+    }
+
+    private float GetMaxWeightModifierBySize()
+    {
+        if (size == Game.Size.LARGE)
+        {
+            return 3;
+        }
+        else if (size == Game.Size.MEDIUM)
+        {
+            return 2;
+        }
+        else // Game.Size.SMALL
+        {
+            return 1;
+        }
+    }
+
+    private float GetMinWeightModifierBySize()
+    {
+        if (size == Game.Size.LARGE)
+        {
+            return 1;
+        }
+        else if (size == Game.Size.MEDIUM)
+        {
+            return 3;
+        }
+        else // Game.Size.SMALL
+        {
+            return 4;
+        }
+    }
+
+
 }

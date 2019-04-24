@@ -30,8 +30,11 @@ public class EncounterTrigger : MonoBehaviour
         ChanceEncounter encounter = collision.gameObject.GetComponent<ChanceEncounter>();
         if (encounter != null && (gameState == Game.State.CATCHING && MainSceneController.GetInstance().GetState() == Game.State.CATCHING))
         {
+            Debug.Log("=========================================================");
             Debug.Log("Encounter :: " + collision.gameObject.name);
-            MainSceneController.GetInstance().SetState(Game.State.ENCOUNTER_QUERY); // Notify controller to show encounter frame
+            Debug.Log("Generated :: " + encounter.GenerateEncounter());
+            Debug.Log("=========================================================");
+            // MainSceneController.GetInstance().SetState(Game.State.ENCOUNTER_QUERY); // Notify controller to show encounter frame
         }
     }
 }
