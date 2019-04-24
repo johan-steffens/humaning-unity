@@ -35,6 +35,13 @@ public class EncounterSceneController : MonoBehaviour
         return instance;
     }
 
+    void Start()
+    {
+        Debug.Log("====================ENCOUNTER STARTED====================");
+        Debug.Log("Encounter :: " + GameController.Encounter);
+        Debug.Log("=========================================================");
+    }
+
     void Update()
     {
         Color wColor = hint;

@@ -1,18 +1,26 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainSceneController : MonoBehaviour
 {
     private Game.State state = Game.State.MENU;
 
-    public GameObject player;
+    public GameObject player; 
     public GameObject menuFrame;
     public GameObject hudFrame;
     public GameObject encounterFrame;
 
     public Animator leftPanelAnimator;
     public Animator rightPanelAnimator;
+
+    public Image leftStar;
+    public Image middleStar;
+    public Image rightStar;
+
+    public Sprite emptyStar;
+    public Sprite filledStar;
 
     private static MainSceneController instance;
 
@@ -112,7 +120,28 @@ public class MainSceneController : MonoBehaviour
 
     private void postStateChange()
     {
-        // Todo: notify listeners
+        if(state == Game.State.ENCOUNTER_QUERY)
+        {
+            Encounter encounter = GameController.Encounter;
+
+            // Set second star
+            if (encounter.stars >= 2)
+            {
+                middleStar.sprite = filledStar;
+            } else
+            {
+                middleStar.sprite = emptyStar;
+            }
+
+            // Set third star
+            if(encounter.stars >= 3)
+            {
+                rightStar.sprite = filledStar;
+            } else
+            {
+                rightStar.sprite = emptyStar;
+            }
+        }
     }
 
     public IEnumerator TransitionToEncounter(int parameter)
