@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainSceneController : MonoBehaviour
 {
@@ -8,6 +10,9 @@ public class MainSceneController : MonoBehaviour
     public GameObject menuFrame;
     public GameObject hudFrame;
     public GameObject encounterFrame;
+
+    public Animator leftPanelAnimator;
+    public Animator rightPanelAnimator;
 
     private static MainSceneController instance;
 
@@ -95,10 +100,7 @@ public class MainSceneController : MonoBehaviour
         // User has accepted catching the human
         else if(state == Game.State.ENCOUNTER_QUERY && changeToState == Game.State.ENCOUNTER)
         {
-            hudFrame.SetActive(true);
-            encounterFrame.SetActive(false);
-
-            // Todo: scene transition to encounter scene
+            StartCoroutine(TransitionToEncounter(0));
         }
         // Menu button was clicked
         else if(changeToState == Game.State.MENU)
@@ -111,12 +113,14 @@ public class MainSceneController : MonoBehaviour
     private void postStateChange()
     {
         // Todo: notify listeners
+    }
 
-        // Todo: replace when encounters have been implemented
-        if(state == Game.State.ENCOUNTER)
-        {
-            state = Game.State.CATCHING;
-        }
+    public IEnumerator TransitionToEncounter(int parameter)
+    {
+        leftPanelAnimator.SetTrigger("exit");
+        rightPanelAnimator.SetTrigger("exit");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("EncounterScene");
     }
 
 }
