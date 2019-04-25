@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EncounterSceneController : MonoBehaviour
 {
+    public Animator leftPanelAnimator;
+    public Animator rightPanelAnimator;
+
     public Sprite[] positiveSprites;
     public Sprite[] negativeSprites;
 
@@ -17,6 +22,7 @@ public class EncounterSceneController : MonoBehaviour
     public Color filledColor = Color.green;
     public Color emptyColor = Color.red;
 
+    public Text timer;
     public Text weightValue;
     public Text fatPercentageValue;
     public Text genderValue;
@@ -26,6 +32,7 @@ public class EncounterSceneController : MonoBehaviour
     private static EncounterSceneController instance;
 
     private Encounter encounter;
+    private float time = 30f;
     private int totalSpaces = 0;
     private int currentSpaces = 0;
 
@@ -46,6 +53,11 @@ public class EncounterSceneController : MonoBehaviour
             instance = new EncounterSceneController();
         }
         return instance;
+    }
+
+    public void OnBackButtonPressed()
+    {
+        StartCoroutine(TransitionToMain());
     }
 
     void Start()
@@ -81,16 +93,38 @@ public class EncounterSceneController : MonoBehaviour
         sliderFill.color =  Color.Lerp(emptyColor, filledColor, (float) currentSpaces / (float) totalSpaces);
 
         // Space pressed
-        if(encounterRunning && Input.GetKeyDown(KeyCode.Space))
-        {
-            if(shouldMash)
+        if (encounterRunning) {
+            // Update time
+            time -= Time.deltaTime;
+            timer.text = "" + Mathf.RoundToInt(time);
+
+            // Check time
+            if(time <= 0)
             {
-                currentSpaces++;
-            } else
-            {
-                currentSpaces--;
+                encounterRunning = false;
+                // Todo: show fail
             }
-        }
+
+            // Check user input
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (shouldMash)
+                {
+                    currentSpaces++;
+                }
+                else
+                {
+                    currentSpaces--;
+                }
+            }
+
+            // Check whether user has caught human within timeframe
+            if(currentSpaces > totalSpaces)
+            {
+                encounterRunning = false;
+                // Todo: show success
+            }
+        } 
     }
 
     void LateUpdate()
@@ -107,7 +141,12 @@ public class EncounterSceneController : MonoBehaviour
     private IEnumerator StartEncounterMashing()
     {
         // Wait for 3 seconds initially
-        yield return new WaitForSeconds(3);
+        timer.text = "3";
+        yield return new WaitForSeconds(1);
+        timer.text = "2";
+        yield return new WaitForSeconds(1);
+        timer.text = "1";
+        yield return new WaitForSeconds(1);
         encounterRunning = true;
 
         // Run encounter
@@ -124,6 +163,7 @@ public class EncounterSceneController : MonoBehaviour
                     currentSprite = positiveSprites[i];
                     yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 3.5f));
                 }
+                positiveSprites = ShuffleArray(positiveSprites);
             }
             // Set negative sprites
             else
@@ -133,9 +173,25 @@ public class EncounterSceneController : MonoBehaviour
                     currentSprite = negativeSprites[i];
                     yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 3.5f));
                 }
+                negativeSprites = ShuffleArray(negativeSprites);
             }
 
             yield return new WaitForSeconds(UnityEngine.Random.Range(0.2f, 2.5f));
         }
+    }
+
+    private Sprite[] ShuffleArray(Sprite[] array)
+    {
+        System.Random random = new System.Random();
+        Sprite[] shuffled = array.OrderBy(x => random.Next()).ToArray();
+        return shuffled;
+    }
+
+    public IEnumerator TransitionToMain()
+    {
+        leftPanelAnimator.SetTrigger("exit");
+        rightPanelAnimator.SetTrigger("exit");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("MainScene");
     }
 }
