@@ -10,17 +10,21 @@ public class Encounter
     public int fatPercentage;
     public int stars;
 
-    public void CalculateStars()
+    public int CalculatePercentage()
     {
         float genderModifier = 1f;
-        if(gender == Game.Gender.FEMALE)
+        if (gender == Game.Gender.FEMALE)
         {
             genderModifier = 0.78f;
         }
 
         // Calculate value out of 100 for encounter
-        int totalValue = Mathf.RoundToInt(weight / fatPercentage * genderModifier);
+        return Mathf.RoundToInt(weight / fatPercentage * genderModifier);
+    }
 
+    public void CalculateStars()
+    {
+        int totalValue = CalculatePercentage();
         Debug.Log("TOTAL VALUE = " + totalValue);
 
         // Assign stars based on total value
