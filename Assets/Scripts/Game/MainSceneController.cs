@@ -24,6 +24,12 @@ public class MainSceneController : MonoBehaviour
     public Sprite emptyStar;
     public Sprite filledStar;
 
+    public Text firstText;
+    public Text secondText;
+    public Text thirdText;
+    public Text fourthText;
+    public Text fifthText;
+
     private static MainSceneController instance;
 
     private MainSceneController() {
@@ -37,6 +43,11 @@ public class MainSceneController : MonoBehaviour
             instance = new MainSceneController();
         }
         return instance;
+    }
+
+    void Start()
+    {
+        LoadScores();
     }
 
     public void OnMenuClicked()
@@ -177,6 +188,45 @@ public class MainSceneController : MonoBehaviour
             {
                 rightStar.sprite = emptyStar;
             }
+        }
+    }
+
+    private void LoadScores()
+    {
+        Debug.Log("LOADING SCORES");
+
+        firstText.text = "No scores submitted";
+        secondText.text = "";
+        thirdText.text = "";
+        fourthText.text = "";
+        fifthText.text = "";
+
+        Scores scores = new Scores();
+        for (int i = 0; i < 5; i++)
+        {
+            if (scores.GetScores().Count < i + 1)
+                break;
+
+            Score score = scores.GetScores()[i];
+
+            if(i == 0)
+            {
+                firstText.text = "1. " + score.name + ": " + score.catches;
+            } else if (i == 1)
+            {
+                secondText.text = "2. " + score.name + ": " + score.catches;
+            } else if (i == 2)
+            {
+                thirdText.text = "3. " + score.name + ": " + score.catches;
+            } else if (i == 3)
+            {
+                fourthText.text = "4. " + score.name + ": " + score.catches;
+            } else if (i == 4)
+            {
+                fifthText.text = "5. " + score.name + ": " + score.catches;
+            }
+
+            Debug.Log("SCORE [" + score.value + ": " + score.catches + "]");
         }
     }
 

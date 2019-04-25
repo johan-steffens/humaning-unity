@@ -8,8 +8,13 @@ using UnityEngine.UI;
 
 public class EncounterSceneController : MonoBehaviour
 {
+
     public Animator leftPanelAnimator;
     public Animator rightPanelAnimator;
+
+    public GameObject encounterFrame;
+    public GameObject successFrame;
+    public GameObject failFrame;
 
     public Sprite[] positiveSprites;
     public Sprite[] negativeSprites;
@@ -23,6 +28,8 @@ public class EncounterSceneController : MonoBehaviour
     public Color emptyColor = Color.red;
 
     public Text timer;
+
+    public InputField nameInput;
     public Text weightValue;
     public Text fatPercentageValue;
     public Text genderValue;
@@ -60,13 +67,26 @@ public class EncounterSceneController : MonoBehaviour
         StartCoroutine(TransitionToMain());
     }
 
+    public void OnSubmitButtonPressed()
+    {
+        if(nameInput.text != "")
+        {
+            // Generate score
+            Score score = new Score();
+            score.name = nameInput.text;
+            score.catches = String.Format("{0:.##}", encounter.weight) + "kg" + "/" + encounter.fatPercentage + "%/" + (encounter.gender == Game.Gender.MALE ? "Male" : "Female");
+            score.value = encounter.CalculatePercentage();
+
+            // Add score
+            Scores scores = new Scores();
+            scores.AddScore(score);
+        }
+        StartCoroutine(TransitionToMain());
+    }
+
     void Start()
     {
-        // encounter = GameController.Encounter;
-        encounter = new Encounter();
-        encounter.weight = 500;
-        encounter.fatPercentage = 12;
-        encounter.gender = Game.Gender.MALE;
+        encounter = GameController.Encounter;
 
         Debug.Log("====================ENCOUNTER STARTED====================");
         Debug.Log("Encounter :: " + encounter);
@@ -76,7 +96,13 @@ public class EncounterSceneController : MonoBehaviour
         fatPercentageValue.text = "" + encounter.fatPercentage + "%";
         genderValue.text = "" + (encounter.gender == Game.Gender.MALE ? "Male" : "Female");
 
+        // Calculations based on encounter
         totalSpaces = encounter.CalculatePercentage();
+        time = 105 - encounter.CalculatePercentage();
+        if(totalSpaces < 10)
+        {
+            totalSpaces = 10;
+        }
 
         // Start encounter
         StartCoroutine(StartEncounterMashing());
@@ -102,7 +128,8 @@ public class EncounterSceneController : MonoBehaviour
             if(time <= 0)
             {
                 encounterRunning = false;
-                // Todo: show fail
+                encounterFrame.SetActive(false);
+                failFrame.SetActive(true);
             }
 
             // Check user input
@@ -122,7 +149,8 @@ public class EncounterSceneController : MonoBehaviour
             if(currentSpaces > totalSpaces)
             {
                 encounterRunning = false;
-                // Todo: show success
+                encounterFrame.SetActive(false);
+                successFrame.SetActive(true);
             }
         } 
     }
