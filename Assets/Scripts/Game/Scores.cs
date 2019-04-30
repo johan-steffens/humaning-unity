@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -20,18 +21,17 @@ public class Scores
     {
         // Path.Combine combines strings into a file path
         // Application.StreamingAssets points to Assets/StreamingAssets in the Editor, and the StreamingAssets folder in a build
-        string filePath = Path.Combine(Application.streamingAssetsPath, gameDataFileName);
+        string filePath = Path.Combine(Application.persistentDataPath, gameDataFileName);
 
-        if (File.Exists(filePath))
+        if (! File.Exists(filePath)) 
         {
-            string dataAsJson = File.ReadAllText(filePath);
-            scores = JsonUtility.FromJson<ScoreData>(dataAsJson);
+            scores = new ScoreData();
+            SaveGameData();
+            return;
         }
-        else
-        {
-            File.Create(filePath);
-            Debug.LogError("Cannot load game data! File did not exist.");
-        }
+
+        string dataAsJson = File.ReadAllText(filePath);
+        scores = JsonUtility.FromJson<ScoreData>(dataAsJson);
 
         if (scores == null)
         {
@@ -41,22 +41,14 @@ public class Scores
 
     private void SaveGameData()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, gameDataFileName);
+        string filePath = Path.Combine(Application.persistentDataPath, gameDataFileName);
 
-        if (File.Exists(filePath))
+        BinaryFormatter bf = new BinaryFormatter();
+        using (var file = File.Open(filePath, FileMode.OpenOrCreate))
         {
-            string dataAsJson = JsonUtility.ToJson(scores);
-
-            Debug.Log("WRITING JSON");
-            Debug.Log(dataAsJson);
-
-            File.WriteAllText(filePath, dataAsJson);
-        }
-        else
-        {
-            File.Create(filePath);
-            Debug.LogError("Cannot load game data! File did not exist.");
-            scores = new ScoreData();
+            byte[] scoreArray = Encoding.UTF8.GetBytes(JsonUtility.ToJson(scores));
+            file.Write(scoreArray, 0, scoreArray.Length);
+            file.Close();
         }
     }
 

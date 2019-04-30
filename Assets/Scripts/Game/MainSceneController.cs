@@ -32,22 +32,15 @@ public class MainSceneController : MonoBehaviour
 
     private static MainSceneController instance;
 
-    private MainSceneController() {
+    public void Start()
+    {
         instance = this;
+        LoadScores();
     }
 
     public static MainSceneController GetInstance()
     {
-        if(instance == null)
-        {
-            instance = new MainSceneController();
-        }
         return instance;
-    }
-
-    void Start()
-    {
-        LoadScores();
     }
 
     public void OnMenuClicked()

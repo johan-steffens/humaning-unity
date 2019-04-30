@@ -48,17 +48,8 @@ public class EncounterSceneController : MonoBehaviour
 
     private Sprite currentSprite;
 
-    private EncounterSceneController()
-    {
-        instance = this;
-    }
-
     public static EncounterSceneController GetInstance()
     {
-        if (instance == null)
-        {
-            instance = new EncounterSceneController();
-        }
         return instance;
     }
 
@@ -86,6 +77,8 @@ public class EncounterSceneController : MonoBehaviour
 
     void Start()
     {
+
+        instance = this;
         encounter = GameController.Encounter;
 
         Debug.Log("====================ENCOUNTER STARTED====================");
