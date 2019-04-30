@@ -20,13 +20,13 @@ public class Game
 
     public class Limits
     {
-        public const int weightMin = 50;
-        public const int weightMax = 500;
+        public const int weightMin = 35;
+        public const int weightMax = 180;
 
         public const float genderMin = 0.78f;
         public const float genderMax = 1f;
 
         public const int fatPercentageMin = 5;
-        public const int fatPercentageMax = 80;
+        public const int fatPercentageMax = 75;
     }
 }

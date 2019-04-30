@@ -65,7 +65,7 @@ public class EncounterSceneController : MonoBehaviour
             // Generate score
             Score score = new Score();
             score.name = nameInput.text;
-            score.catches = String.Format("{0:.##}", encounter.weight) + "kg" + "/" + encounter.fatPercentage + "%/" + (encounter.gender == Game.Gender.MALE ? "Male" : "Female");
+            score.catches = String.Format("{0:.##}", encounter.weight) + "kg" + " - " + encounter.fatPercentage + "% - " + (encounter.gender == Game.Gender.MALE ? "Male" : "Female");
             score.value = encounter.CalculatePercentage();
 
             // Add score
@@ -81,8 +81,17 @@ public class EncounterSceneController : MonoBehaviour
         instance = this;
         encounter = GameController.Encounter;
 
+        if(encounter == null)
+        {
+            encounter = new Encounter();
+            encounter.gender = Game.Gender.MALE;
+            encounter.size = Game.Size.LARGE;
+            encounter.weight = UnityEngine.Random.Range(35, 150);
+            encounter.fatPercentage = UnityEngine.Random.Range(5, 75);
+        }
+
         Debug.Log("====================ENCOUNTER STARTED====================");
-        Debug.Log("Encounter :: " + encounter);
+        Debug.Log("Encounter :: " + encounter + ", value :: " + encounter.CalculatePercentage());
         Debug.Log("=========================================================");
 
         weightValue.text = "" + String.Format("{0:.##}", encounter.weight) + "kg";
@@ -90,8 +99,8 @@ public class EncounterSceneController : MonoBehaviour
         genderValue.text = "" + (encounter.gender == Game.Gender.MALE ? "Male" : "Female");
 
         // Calculations based on encounter
-        totalSpaces = encounter.CalculatePercentage();
-        time = 105 - encounter.CalculatePercentage();
+        totalSpaces = encounter.CalculatePercentage() * 10 + (10 - encounter.CalculatePercentage());
+        time = 20 + (encounter.CalculatePercentage() * 2);
         if(totalSpaces < 10)
         {
             totalSpaces = 10;
