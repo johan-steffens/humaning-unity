@@ -12,7 +12,7 @@ public class ChanceEncounter : MonoBehaviour
         // Start in random direction
         int modX = Random.Range(0, 2);
         int modY = Random.Range(0, 2);
-        GetComponent<Rigidbody2D>().velocity = new Vector2((modX == 0 ? -1 : 1) * Random.Range(0, 10), (modX == 0 ? -1 : 1) * -Random.Range(0, 10));
+        GetComponent<Rigidbody2D>().velocity = new Vector2((modX == 0 ? -1 : 1) * Random.Range(0, 5), (modX == 0 ? -1 : 1) * -Random.Range(0, 5));
     }
 
     public Encounter GenerateEncounter()
