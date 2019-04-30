@@ -29,10 +29,10 @@ public class Encounter
 
         // Assign stars based on total value
         stars = 1;
-        if(totalValue >= 25 && totalValue <= 49)
+        if(totalValue >= 12 && totalValue <= 27)
         {
             stars = 2;
-        } else if(totalValue >= 50)
+        } else if(totalValue >= 28)
         {
             stars = 3;
         }        

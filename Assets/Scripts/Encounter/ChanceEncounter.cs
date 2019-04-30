@@ -12,7 +12,7 @@ public class ChanceEncounter : MonoBehaviour
         // Start in random direction
         int modX = Random.Range(0, 2);
         int modY = Random.Range(0, 2);
-        GetComponent<Rigidbody2D>().velocity = new Vector2((modX == 0 ? -1 : 1) * Random.Range(0, 20), (modX == 0 ? -1 : 1) * -Random.Range(0, 20));
+        GetComponent<Rigidbody2D>().velocity = new Vector2((modX == 0 ? -1 : 1) * Random.Range(0, 10), (modX == 0 ? -1 : 1) * -Random.Range(0, 10));
     }
 
     public Encounter GenerateEncounter()
@@ -33,11 +33,11 @@ public class ChanceEncounter : MonoBehaviour
             return 1;
         } else if(size == Game.Size.MEDIUM)
         {
-            return 3;
+            return 5;
         }
         else // Game.Size.SMALL
         {
-            return 6;
+            return 7;
         }
     }
 
@@ -49,7 +49,7 @@ public class ChanceEncounter : MonoBehaviour
         }
         else if (size == Game.Size.MEDIUM)
         {
-            return 2;
+            return 1;
         }
         else // Game.Size.SMALL
         {
@@ -65,7 +65,7 @@ public class ChanceEncounter : MonoBehaviour
         }
         else if (size == Game.Size.MEDIUM)
         {
-            return 2;
+            return 1;
         }
         else // Game.Size.SMALL
         {
@@ -81,11 +81,11 @@ public class ChanceEncounter : MonoBehaviour
         }
         else if (size == Game.Size.MEDIUM)
         {
-            return 3;
+            return 4;
         }
         else // Game.Size.SMALL
         {
-            return 4;
+            return 5;
         }
     }
 
