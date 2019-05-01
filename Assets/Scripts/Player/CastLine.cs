@@ -33,7 +33,7 @@ public class CastLine : MonoBehaviour
         clearTime += Time.deltaTime;
 
         // Check game state
-        if(clearTime > 1) {
+        if(clearTime > 1 && MainSceneController.GetInstance() != null) {
             clearTime = 0;
             gameState = MainSceneController.GetInstance().GetState();
         }

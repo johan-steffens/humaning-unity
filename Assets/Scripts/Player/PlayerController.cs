@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     public float speed;
     public float rotationSpeed;
 
@@ -17,6 +16,11 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 moveVelocity;
 
+    private Vector2 originalVelocity = Vector2.zero;
+    public float brakeTime = 1.5f;
+    private float brakeTimer = 0;
+    private bool braking = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,14 +32,22 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Slow if space is held
-        if (Input.GetKey(KeyCode.Space))
+        // Slow if space is held or user not pressing movement keys
+        if (Input.GetKey(KeyCode.Space) || (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0))
         {
-            slow.enabled = true;
+            if (! braking)
+            {
+                brakeTimer = 0;
+                originalVelocity = rigidbody.velocity;
+                braking = true;
+            }
+
+            rigidbody.velocity = Vector2.Lerp(originalVelocity, Vector2.zero, brakeTimer);
+            brakeTimer += Time.deltaTime / brakeTime;
         }
         else
         {
-            slow.enabled = false;
+            braking = false;
 
             if (MainSceneController.GetInstance().GetState() == Game.State.CATCHING)
             {
@@ -51,45 +63,46 @@ public class PlayerController : MonoBehaviour
                     Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
                     transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotationSpeed);
                 }
-
-
             }
         }
     }
 
     void FixedUpdate()
     {
-        // Add x velocity
-        if(moveVelocity.x != 0)
+        if(! braking)
         {
-            rigidbody.AddForce(new Vector2(moveVelocity.x, 0));
-        }
+            // Add x velocity
+            if (moveVelocity.x != 0)
+            {
+                rigidbody.AddForce(new Vector2(moveVelocity.x, 0));
+            }
 
-        // Add y velocity
-        if (moveVelocity.y != 0)
-        {
-            rigidbody.AddForce(new Vector2(0, moveVelocity.y));
-        }
+            // Add y velocity
+            if (moveVelocity.y != 0)
+            {
+                rigidbody.AddForce(new Vector2(0, moveVelocity.y));
+            }
 
-        // Cap x velocity
-        if (moveVelocity.x < 0 && rigidbody.velocity.x < -maxXVelocity)
-        {
-            rigidbody.velocity = new Vector2(-maxXVelocity, rigidbody.velocity.y);
-        }
-        else if (moveVelocity.x > 0 && rigidbody.velocity.x > maxXVelocity)
-        {
-            rigidbody.velocity = new Vector2(maxXVelocity, rigidbody.velocity.y);
-        }
+            // Cap x velocity
+            if (moveVelocity.x < 0 && rigidbody.velocity.x < -maxXVelocity)
+            {
+                rigidbody.velocity = new Vector2(-maxXVelocity, rigidbody.velocity.y);
+            }
+            else if (moveVelocity.x > 0 && rigidbody.velocity.x > maxXVelocity)
+            {
+                rigidbody.velocity = new Vector2(maxXVelocity, rigidbody.velocity.y);
+            }
 
-        // Cap y velocity
-        if (moveVelocity.y < 0 && rigidbody.velocity.y < -maxYVelocity)
-        {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, -maxYVelocity);
-        }
-        else if (moveVelocity.y > 0 && rigidbody.velocity.y > maxYVelocity)
-        {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, maxYVelocity);
-        }
+            // Cap y velocity
+            if (moveVelocity.y < 0 && rigidbody.velocity.y < -maxYVelocity)
+            {
+                rigidbody.velocity = new Vector2(rigidbody.velocity.x, -maxYVelocity);
+            }
+            else if (moveVelocity.y > 0 && rigidbody.velocity.y > maxYVelocity)
+            {
+                rigidbody.velocity = new Vector2(rigidbody.velocity.x, maxYVelocity);
+            }
+        }        
 
         // Set animation speed
         animator.speed = 0.25f + (float) (Mathf.Abs(rigidbody.velocity.x) + Mathf.Abs(rigidbody.velocity.y)) / (float) (maxXVelocity + maxYVelocity);
