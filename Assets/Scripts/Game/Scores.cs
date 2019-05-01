@@ -10,7 +10,7 @@ using UnityEngine;
 public class Scores
 {
     private ScoreData scores;
-    private string gameDataFileName = "scores.json";
+    private string filePath = Path.Combine(Application.persistentDataPath, "scores.json");
 
     public Scores()
     {
@@ -19,10 +19,7 @@ public class Scores
 
     private void LoadGameData()
     {
-        // Path.Combine combines strings into a file path
-        // Application.StreamingAssets points to Assets/StreamingAssets in the Editor, and the StreamingAssets folder in a build
-        string filePath = Path.Combine(Application.persistentDataPath, gameDataFileName);
-
+        // Create the file if it doesn't exist
         if (! File.Exists(filePath)) 
         {
             scores = new ScoreData();
@@ -30,9 +27,15 @@ public class Scores
             return;
         }
 
-        string dataAsJson = File.ReadAllText(filePath);
-        scores = JsonUtility.FromJson<ScoreData>(dataAsJson);
+        // Read the contents of the file
+        var file = File.Open(filePath, FileMode.OpenOrCreate);
 
+        byte[] scoreArray = new byte[file.Length];
+        file.Read(scoreArray, 0, (int) file.Length);
+        file.Close();
+        string scoreData = Encoding.UTF8.GetString(scoreArray);
+
+        scores = JsonUtility.FromJson<ScoreData>(scoreData);
         if (scores == null)
         {
             scores = new ScoreData();
@@ -41,15 +44,17 @@ public class Scores
 
     private void SaveGameData()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, gameDataFileName);
+        // Open file
+        var file = File.Open(filePath, FileMode.OpenOrCreate);
 
-        BinaryFormatter bf = new BinaryFormatter();
-        using (var file = File.Open(filePath, FileMode.OpenOrCreate))
-        {
-            byte[] scoreArray = Encoding.UTF8.GetBytes(JsonUtility.ToJson(scores));
-            file.Write(scoreArray, 0, scoreArray.Length);
-            file.Close();
-        }
+        // Clear file contents
+        file.SetLength(0);
+        file.Flush();
+
+        // Now write new contents
+        byte[] scoreArray = Encoding.UTF8.GetBytes(JsonUtility.ToJson(scores));
+        file.Write(scoreArray, 0, scoreArray.Length);
+        file.Close();
     }
 
     public List<Score> GetScores()
@@ -61,11 +66,20 @@ public class Scores
     {
         if(scores.scores.Count == 8)
         {
-            scores.scores.RemoveAt(7);
+            // Don't save score if the score is worth less than the lowest score
+            if(score.value <= scores.scores[7].value)
+            {
+                return;
+            } else
+            {
+                scores.scores[7] = score;
+            }
+        } else
+        {
+            scores.scores.Add(score);
         }
 
         // Ensure highest score is on top
-        scores.scores.Add(score);
         scores.scores = scores.scores.OrderByDescending(x => x.value).ToList();
 
         // Save scores

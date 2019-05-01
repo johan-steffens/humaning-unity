@@ -201,7 +201,7 @@ public class MainSceneController : MonoBehaviour
         eighthText.text = "";
 
         Scores scores = new Scores();
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 8; i++)
         {
             if (scores.GetScores().Count < i + 1)
                 break;
@@ -225,16 +225,16 @@ public class MainSceneController : MonoBehaviour
                 fifthText.text = "5. " + score.name + ": " + score.catches;
             } else if (i == 5)
             {
-                thirdText.text = "6. " + score.name + ": " + score.catches;
+                sixthText.text = "6. " + score.name + ": " + score.catches;
             } else if (i == 6)
             {
-                fourthText.text = "7. " + score.name + ": " + score.catches;
+                seventhText.text = "7. " + score.name + ": " + score.catches;
             } else if (i == 7)
             {
-                fifthText.text = "8. " + score.name + ": " + score.catches;
+                eighthText.text = "8. " + score.name + ": " + score.catches;
             }
 
-            Debug.Log("SCORE [" + score.value + ": " + score.catches + "]");
+            Debug.Log("SCORE {" + i + "} [" + score.value + ": " + score.catches + "]");
         }
     }
 
