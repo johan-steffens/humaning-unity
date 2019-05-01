@@ -42,6 +42,7 @@ public class EncounterSceneController : MonoBehaviour
     private float time = 30f;
     private int totalSpaces = 0;
     private int currentSpaces = 0;
+    private int mashLoseSpaces = 1;
 
     private bool encounterRunning = false;
     private bool shouldMash = false;
@@ -88,6 +89,7 @@ public class EncounterSceneController : MonoBehaviour
             encounter.size = Game.Size.LARGE;
             encounter.weight = UnityEngine.Random.Range(35, 150);
             encounter.fatPercentage = UnityEngine.Random.Range(5, 75);
+            encounter.CalculateStars();
         }
 
         Debug.Log("====================ENCOUNTER STARTED====================");
@@ -99,6 +101,7 @@ public class EncounterSceneController : MonoBehaviour
         genderValue.text = "" + (encounter.gender == Game.Gender.MALE ? "Male" : "Female");
 
         // Calculations based on encounter
+        mashLoseSpaces = encounter.stars * 2;
         totalSpaces = encounter.CalculatePercentage() * 10 + (10 - encounter.CalculatePercentage());
         time = 20 + (encounter.CalculatePercentage() * 2);
         if(totalSpaces < 10)
@@ -143,7 +146,10 @@ public class EncounterSceneController : MonoBehaviour
                 }
                 else
                 {
-                    currentSpaces--;
+                    currentSpaces -= mashLoseSpaces;
+
+                    if (currentSpaces < 0)
+                        currentSpaces = 0;
                 }
             }
 

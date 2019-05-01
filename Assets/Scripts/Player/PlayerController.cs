@@ -28,29 +28,31 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(MainSceneController.GetInstance().GetState() == Game.State.CATCHING)
+        // Slow if space is held
+        if (Input.GetKey(KeyCode.Space))
         {
-            // Get and normalise input
-            Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-            moveVelocity = moveInput.normalized * speed;
+            slow.enabled = true;
+        }
+        else
+        {
+            slow.enabled = false;
 
-            // Set rotation to follow velocity
-            if (moveVelocity.x != 0 || moveVelocity.y != 0)
+            if (MainSceneController.GetInstance().GetState() == Game.State.CATCHING)
             {
-                Vector3 vectorToTarget = (transform.position + new Vector3(moveVelocity.x, moveVelocity.y)) - transform.position;
-                float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-                Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotationSpeed);
-            }
+                // Get and normalise input
+                Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                moveVelocity = moveInput.normalized * speed;
 
-            // Slow if space is held
-            if (Input.GetKey(KeyCode.Space))
-            {
-                slow.enabled = true;
-            }
-            else
-            {
-                slow.enabled = false;
+                // Set rotation to follow velocity
+                if (moveVelocity.x != 0 || moveVelocity.y != 0)
+                {
+                    Vector3 vectorToTarget = (transform.position + new Vector3(moveVelocity.x, moveVelocity.y)) - transform.position;
+                    float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+                    Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * rotationSpeed);
+                }
+
+
             }
         }
     }

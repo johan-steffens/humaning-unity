@@ -29,6 +29,9 @@ public class MainSceneController : MonoBehaviour
     public Text thirdText;
     public Text fourthText;
     public Text fifthText;
+    public Text sixthText;
+    public Text seventhText;
+    public Text eighthText;
 
     private static MainSceneController instance;
 
@@ -193,6 +196,9 @@ public class MainSceneController : MonoBehaviour
         thirdText.text = "";
         fourthText.text = "";
         fifthText.text = "";
+        sixthText.text = "";
+        seventhText.text = "";
+        eighthText.text = "";
 
         Scores scores = new Scores();
         for (int i = 0; i < 5; i++)
@@ -217,6 +223,15 @@ public class MainSceneController : MonoBehaviour
             } else if (i == 4)
             {
                 fifthText.text = "5. " + score.name + ": " + score.catches;
+            } else if (i == 5)
+            {
+                thirdText.text = "6. " + score.name + ": " + score.catches;
+            } else if (i == 6)
+            {
+                fourthText.text = "7. " + score.name + ": " + score.catches;
+            } else if (i == 7)
+            {
+                fifthText.text = "8. " + score.name + ": " + score.catches;
             }
 
             Debug.Log("SCORE [" + score.value + ": " + score.catches + "]");

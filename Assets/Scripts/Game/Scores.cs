@@ -59,9 +59,9 @@ public class Scores
 
     public void AddScore(Score score)
     {
-        if(scores.scores.Count == 5)
+        if(scores.scores.Count == 8)
         {
-            scores.scores.RemoveAt(4);
+            scores.scores.RemoveAt(7);
         }
 
         // Ensure highest score is on top

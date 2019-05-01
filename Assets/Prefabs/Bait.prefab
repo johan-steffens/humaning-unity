@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b3ea852e8aaed94eb87223db1e0ecb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLines: 50
+  maxLines: 55
   line: {fileID: 3130933491273549476, guid: af0595d0e14f6364396fd9467ac552f9, type: 3}
   player: {fileID: 0}
 --- !u!114 &1660756491719252553
