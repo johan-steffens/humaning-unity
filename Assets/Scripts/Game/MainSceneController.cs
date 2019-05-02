@@ -24,6 +24,8 @@ public class MainSceneController : MonoBehaviour
     public Sprite emptyStar;
     public Sprite filledStar;
 
+    public Text playButtonText;
+
     public Text firstText;
     public Text secondText;
     public Text thirdText;
@@ -39,6 +41,12 @@ public class MainSceneController : MonoBehaviour
     {
         instance = this;
         LoadScores();
+
+        if (GameController.HasGameStarted)
+        {
+            playButtonText.text = "RESUME";
+            OnMenuPlayClicked();
+        }
     }
 
     public static MainSceneController GetInstance()
@@ -54,6 +62,7 @@ public class MainSceneController : MonoBehaviour
     public void OnMenuPlayClicked()
     {
         SetState(Game.State.CATCHING);
+        GameController.HasGameStarted = true;
     }
 
     public void OnMenuHelpClicked()
@@ -189,8 +198,6 @@ public class MainSceneController : MonoBehaviour
 
     private void LoadScores()
     {
-        Debug.Log("LOADING SCORES");
-
         firstText.text = "No scores submitted";
         secondText.text = "";
         thirdText.text = "";
@@ -233,8 +240,6 @@ public class MainSceneController : MonoBehaviour
             {
                 eighthText.text = "8. " + score.name + ": " + score.catches;
             }
-
-            Debug.Log("SCORE {" + i + "} [" + score.value + ": " + score.catches + "]");
         }
     }
 

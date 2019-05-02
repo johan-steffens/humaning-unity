@@ -12,4 +12,17 @@
             encounter = value;
         }
     }
+
+    private static bool gameStarted = false;
+    public static bool HasGameStarted
+    {
+        get
+        {
+            return gameStarted;
+        }
+        set
+        {
+            gameStarted = value;
+        }
+    }
 }
