@@ -49,10 +49,8 @@ public class MainSceneController : MonoBehaviour
             OnMenuPlayClicked();
 
             // Check if a high score is available
-            Debug.Log("A");
             if (GameController.HasNewHighscore) 
             {
-                Debug.Log("B");
                 GameController.HasNewHighscore = false;
                 StartCoroutine(HighscorePanelAnimation());
             }
