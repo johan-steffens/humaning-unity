@@ -71,7 +71,7 @@ public class EncounterSceneController : MonoBehaviour
 
             // Add score
             Scores scores = new Scores();
-            scores.AddScore(score);
+            GameController.HasNewHighscore = scores.AddScore(score);
         }
         StartCoroutine(TransitionToMain());
     }

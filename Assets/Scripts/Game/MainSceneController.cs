@@ -13,6 +13,7 @@ public class MainSceneController : MonoBehaviour
     public GameObject encounterFrame;
     public GameObject helpFrame;
     public GameObject scoreFrame;
+    public GameObject highscoreFrame;
 
     public Animator leftPanelAnimator;
     public Animator rightPanelAnimator;
@@ -46,6 +47,15 @@ public class MainSceneController : MonoBehaviour
         {
             playButtonText.text = "RESUME";
             OnMenuPlayClicked();
+
+            // Check if a high score is available
+            Debug.Log("A");
+            if (GameController.HasNewHighscore) 
+            {
+                Debug.Log("B");
+                GameController.HasNewHighscore = false;
+                StartCoroutine(HighscorePanelAnimation());
+            }
         }
     }
 
@@ -249,6 +259,14 @@ public class MainSceneController : MonoBehaviour
         rightPanelAnimator.SetTrigger("exit");
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene("EncounterScene");
+    }
+
+    public IEnumerator HighscorePanelAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        highscoreFrame.GetComponent<Animator>().SetTrigger("enter");
+        yield return new WaitForSeconds(5);
+        highscoreFrame.GetComponent<Animator>().SetTrigger("exit");
     }
 
 }

@@ -62,14 +62,14 @@ public class Scores
         return scores.scores;
     }
 
-    public void AddScore(Score score)
+    public bool AddScore(Score score)
     {
         if(scores.scores.Count == 8)
         {
             // Don't save score if the score is worth less than the lowest score
             if(score.value <= scores.scores[7].value)
             {
-                return;
+                return false;
             } else
             {
                 scores.scores[7] = score;
@@ -84,6 +84,9 @@ public class Scores
 
         // Save scores
         SaveGameData();
+
+        // Return new high score
+        return true;
     }
 
 }
